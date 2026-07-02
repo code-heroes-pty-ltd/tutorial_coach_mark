@@ -36,6 +36,8 @@ class TutorialCoachMarkWidget extends StatefulWidget {
     this.showSkipInLastTarget = false,
     this.imageFilter,
     this.backgroundSemanticLabel,
+    this.contentAnimationDuration = const Duration(milliseconds: 300),
+    this.contentAlwaysIncludeSemantics = false,
     this.initialFocus = 0,
   })  : assert(targets.length > 0),
         super(key: key);
@@ -67,6 +69,8 @@ class TutorialCoachMarkWidget extends StatefulWidget {
   final ImageFilter? imageFilter;
   final int initialFocus;
   final String? backgroundSemanticLabel;
+  final Duration contentAnimationDuration;
+  final bool contentAlwaysIncludeSemantics;
 
   @override
   TutorialCoachMarkWidgetState createState() => TutorialCoachMarkWidgetState();
@@ -151,7 +155,10 @@ class TutorialCoachMarkWidgetState extends State<TutorialCoachMarkWidget>
           ),
           AnimatedOpacity(
             opacity: showContent ? 1 : 0,
-            duration: const Duration(milliseconds: 300),
+            duration: MediaQuery.disableAnimationsOf(context)
+                ? Duration.zero
+                : widget.contentAnimationDuration,
+            alwaysIncludeSemantics: widget.contentAlwaysIncludeSemantics,
             child: _buildContents(),
           ),
           _buildSkip()
@@ -309,7 +316,10 @@ class TutorialCoachMarkWidgetState extends State<TutorialCoachMarkWidget>
         right: widget.useSafeArea ? true : false,
         child: AnimatedOpacity(
           opacity: showContent ? 1 : 0,
-          duration: Durations.medium2,
+          duration: MediaQuery.disableAnimationsOf(context)
+              ? Duration.zero
+              : widget.contentAnimationDuration,
+          alwaysIncludeSemantics: widget.contentAlwaysIncludeSemantics,
           child: widget.skipWidget != null
               ? InkWell(
             onTap: skip,
