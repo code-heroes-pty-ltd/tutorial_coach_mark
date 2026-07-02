@@ -342,9 +342,9 @@ class AnimatedStaticFocusLightState extends AnimatedFocusLightState {
 
   @override
   Widget build(BuildContext context) {
-    return Semantics(
-      label: widget.backgroundSemanticLabel,
-      button: true,
+    return _withBackgroundSemantics(
+      enableOverlayTab: _targetFocus.enableOverlayTab,
+      backgroundSemanticLabel: widget.backgroundSemanticLabel,
       child: InkWell(
         excludeFromSemantics: true,
         onTap: _targetFocus.enableOverlayTab
@@ -436,9 +436,9 @@ class AnimatedPulseFocusLightState extends AnimatedFocusLightState {
 
   @override
   Widget build(BuildContext context) {
-    return Semantics(
-      label: widget.backgroundSemanticLabel,
-      button: true,
+    return _withBackgroundSemantics(
+      enableOverlayTab: _targetFocus.enableOverlayTab,
+      backgroundSemanticLabel: widget.backgroundSemanticLabel,
       child: InkWell(
         excludeFromSemantics: true,
         onTap: _targetFocus.enableOverlayTab
@@ -545,4 +545,23 @@ class AnimatedPulseFocusLightState extends AnimatedFocusLightState {
       CurvedAnimation(parent: _controllerPulse, curve: Curves.ease),
     );
   }
+}
+
+/// Background overlay semantics: interactive only when the overlay accepts taps.
+Widget _withBackgroundSemantics({
+  required bool enableOverlayTab,
+  required String? backgroundSemanticLabel,
+  required Widget child,
+}) {
+  if (!enableOverlayTab) {
+    return ExcludeSemantics(child: child);
+  }
+  if (backgroundSemanticLabel == null) {
+    return ExcludeSemantics(child: child);
+  }
+  return Semantics(
+    label: backgroundSemanticLabel,
+    button: true,
+    child: child,
+  );
 }
