@@ -1,7 +1,7 @@
 # 1.3.3
 - Fix: Custom skipWidget not triggering tutorial skip action #222
 - Inline documentation, enable rebuilding on screen resize #226
-- Fix: Exclude non-tappable shadow overlay from semantics so screen readers do not announce a nameless "Button" on the dimmed background.
+- Fix: Exclude shadow overlay from semantics until tooltip content is visible, and when the overlay is non-tappable, so screen readers do not announce a nameless "Button" on the dimmed background.
 
 # 1.3.2
 - Adds before focus function so that something can be run before focusing on the next target

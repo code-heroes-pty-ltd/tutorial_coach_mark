@@ -126,6 +126,7 @@ class TutorialCoachMarkWidgetState extends State<TutorialCoachMarkWidget>
             rootOverlay: widget.rootOverlay,
             imageFilter: widget.imageFilter,
             backgroundSemanticLabel: widget.backgroundSemanticLabel,
+            tooltipVisible: showContent,
             clickTarget: (target) {
               return widget.clickTarget?.call(target);
             },

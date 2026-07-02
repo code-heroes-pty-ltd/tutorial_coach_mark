@@ -33,6 +33,7 @@ class AnimatedFocusLight extends StatefulWidget {
     this.rootOverlay = false,
     this.initialFocus = 0,
     this.backgroundSemanticLabel,
+    this.tooltipVisible = false,
   })  : assert(targets.length > 0),
         super(key: key);
 
@@ -57,6 +58,7 @@ class AnimatedFocusLight extends StatefulWidget {
   final ImageFilter? imageFilter;
   final int initialFocus;
   final String? backgroundSemanticLabel;
+  final bool tooltipVisible;
 
   @override
   // ignore: no_logic_in_create_state
@@ -345,6 +347,7 @@ class AnimatedStaticFocusLightState extends AnimatedFocusLightState {
     return _withBackgroundSemantics(
       enableOverlayTab: _targetFocus.enableOverlayTab,
       backgroundSemanticLabel: widget.backgroundSemanticLabel,
+      tooltipVisible: widget.tooltipVisible,
       child: InkWell(
         excludeFromSemantics: true,
         onTap: _targetFocus.enableOverlayTab
@@ -439,6 +442,7 @@ class AnimatedPulseFocusLightState extends AnimatedFocusLightState {
     return _withBackgroundSemantics(
       enableOverlayTab: _targetFocus.enableOverlayTab,
       backgroundSemanticLabel: widget.backgroundSemanticLabel,
+      tooltipVisible: widget.tooltipVisible,
       child: InkWell(
         excludeFromSemantics: true,
         onTap: _targetFocus.enableOverlayTab
@@ -547,12 +551,17 @@ class AnimatedPulseFocusLightState extends AnimatedFocusLightState {
   }
 }
 
-/// Background overlay semantics: interactive only when the overlay accepts taps.
+/// Background overlay semantics: exposed only once tooltip content is visible
+/// and the overlay accepts taps.
 Widget _withBackgroundSemantics({
   required bool enableOverlayTab,
   required String? backgroundSemanticLabel,
+  required bool tooltipVisible,
   required Widget child,
 }) {
+  if (!tooltipVisible) {
+    return ExcludeSemantics(child: child);
+  }
   if (!enableOverlayTab) {
     return ExcludeSemantics(child: child);
   }
