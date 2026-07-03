@@ -118,6 +118,16 @@ class TutorialCoachMark {
   /// Semantic label for the background overlay for accessibility.
   final String? backgroundSemanticLabel;
 
+  /// Duration of the content fade-in animation when a target is focused.
+  final Duration contentAnimationDuration;
+
+  /// Whether to include step content in the semantics tree during fade-in.
+  ///
+  /// When false (default), [AnimatedOpacity] omits child semantics while
+  /// opacity is 0. Set to true when screen readers need immediate access to
+  /// tooltip content before the fade completes.
+  final bool contentAlwaysIncludeSemantics;
+
   /// Index of the target to focus initially (0-based).
   final int initialFocus;
 
@@ -158,6 +168,9 @@ class TutorialCoachMark {
   /// - [imageFilter]: Image filter effect for background.
   /// - [initialFocus]: Index of initial focus target. Default is 0.
   /// - [backgroundSemanticLabel]: Semantic label for background overlay.
+  /// - [contentAnimationDuration]: Duration of content fade-in. Default is 300ms.
+  /// - [contentAlwaysIncludeSemantics]: Include content semantics during fade-in.
+  ///   Default is false.
   /// - [disableBackButton]: Whether to disable device back button. Default is false.
   TutorialCoachMark({
     required this.targets,
@@ -184,6 +197,8 @@ class TutorialCoachMark {
     this.imageFilter,
     this.initialFocus = 0,
     this.backgroundSemanticLabel,
+    this.contentAnimationDuration = const Duration(milliseconds: 300),
+    this.contentAlwaysIncludeSemantics = false,
     this.disableBackButton = false,
   }) : assert(opacityShadow >= 0 && opacityShadow <= 1);
 
@@ -217,6 +232,8 @@ class TutorialCoachMark {
           imageFilter: imageFilter,
           initialFocus: initialFocus,
           backgroundSemanticLabel: backgroundSemanticLabel,
+          contentAnimationDuration: contentAnimationDuration,
+          contentAlwaysIncludeSemantics: contentAlwaysIncludeSemantics,
         );
       },
     );
